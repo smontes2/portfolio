@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Meal Plan Calculator",
+    "imageSrc": "projects/mealplan.png",
+    "description": "A full-stack application allowing students to retrieve meal plan data from their student accounts displayed in an easy to read fashion.",
+    "skills": ["Python", "HTML", "CSS", "JavaScript"],
+    "demo": "https://bingmealplanhelper.pythonanywhere.com/",
+    "source": "https://github.com/JacksonSearles/MealPlanProject"
+  },
+  {
+    "title": "Grade Book",
+    "imageSrc": "projects/gradebook.png",
+    "description": "A desktop application for managing class grades using the Tauri framework. This app has full CRUD capabilites.",
+    "skills": ["Rust", "JavaScript", "HTML", "CSS"],
+    "demo": "",
+    "source": "https://github.com/smontes2/desktop-gradebook"
+  },
+  {
+    "title": "Portfolio",
+    "imageSrc": "projects/portfolio.png",
+    "description": "A website created using React.js and JavaScript. It highlights my skillset and current experiences.",
+    "skills": ["React", "JavaScript"],
+    "demo": "https://www.example.com",
+    "source": "https://github.com/smontes2/portfolio"
+  }
+]

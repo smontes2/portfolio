@@ -1,0 +1,31 @@
+[
+	{
+	  "title": "HTML",
+	  "imageSrc": "skills/html.png"
+	},
+	{
+	  "title": "CSS",
+	  "imageSrc": "skills/css.png"
+	},
+	{
+	  "title": "React",
+	  "imageSrc": "skills/react.png"
+	},
+	{
+	  "title": "JavaScript",
+	  "imageSrc": "skills/jsLogo.png"
+	},
+	{
+	  "title": "Python",
+	  "imageSrc": "skills/pythonLogo.png"
+	},
+	{
+	  "title": "C++",
+	  "imageSrc": "skills/C++_logo.png"
+	},
+	{
+		"title": "Rust",
+		"imageSrc": "skills/rustLogo.png"
+	}
+  ]
+  

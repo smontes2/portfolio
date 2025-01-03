@@ -1,0 +1,22 @@
+[
+	{
+	  "role": "Software Team Lead",
+	  "orginization": "BTC",
+	  "startDate": "Oct, 2023",
+	  "endDate": "Present",
+	  "experiences": ["Led team to develop a student marketplace app", 
+	  "Built user profile pages with Dart and Flutter", 
+	  "Managed version control with Git and GitHub"],
+	  "imageSrc": "history/btcLogo.png"
+	},
+	{
+	  "role": "UG Course Assistant",
+	  "orginization": "Binghamton Univeristy",
+	  "startDate": "Jan, 2024",
+	  "endDate": "Dec, 2024",
+	  "experiences": ["Led Java lab sessions on core programming principles",
+	   "Supported students with Java projects and command line use"],
+	  "imageSrc": "history/bingLogo.jpg"
+	}
+  ]
+  
