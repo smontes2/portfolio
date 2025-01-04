@@ -90,6 +90,7 @@
 .historyItemDetails p {
 	font-size: 20px;
 	font-weight: 300;
+	padding-bottom: 10px;
 }
 
 .historyItemDetails ul {
@@ -116,6 +117,31 @@
 
 	.history {
 		width: 100%;
-		gap: 9px;
+		gap: 30px;
+	}
+
+	.title {
+		text-align: center;
+		padding-bottom: 20px;
+	}
+
+	.historyItem {
+		flex-direction: column;
+		background: linear-gradient(90deg, #576cbc 0%, #132a53 100%);
+	}
+
+	.historyItemDetails {
+		text-align: center;
+	}
+
+	.historyItemDetails ul {
+		list-style-type: none;
+		margin-left: 0;
+		padding-left: 0;
+		text-align: center;
+	}
+
+	.historyItemDetails ul li {
+		margin-bottom: 20px;
 	}
 }

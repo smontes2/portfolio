@@ -63,3 +63,17 @@
 	background: var(--color-primary);
 	padding: 1px 22px;
 }
+
+@media screen and (max-width: 830px) {
+	.title {
+		text-align: center;
+	}
+
+	.description {
+		text-align: center;
+	}
+
+	.skills {
+		justify-content: center;
+	}
+}

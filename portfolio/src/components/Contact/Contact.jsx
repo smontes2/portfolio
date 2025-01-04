@@ -12,21 +12,21 @@ export const Contact = () => {
 		<div className={styles.contactInfo}>
 			<ul className={styles.contactItems}>
 				<li className={styles.contactItem}>
-					<img src={getImageUrl("/contact/emailIcon.png")} alt="email icon" />
+					<a href="mailto:smontes2022@gmail.com" target="_blank"><img src={getImageUrl("/contact/emailIcon.png")} alt="email icon" className={styles.linkImg} /></a>
 					<div className={styles.contactItemText}>
-						<a href="mailto:smontes2022@gmail.com" className={styles.link}>smontes2022@gmail.com</a>
+						<a href="mailto:smontes2022@gmail.com" target="_blank" className={styles.link}>smontes2022@gmail.com</a>
 					</div>					
 				</li>
 				<li className={styles.contactItem}>
-					<img src={getImageUrl("/contact/linkedinIcon.png")} alt="linkedin icon" />
+					<a href="https://www.linkedin.com/in/samuel-montes-/" target="_blank"><img src={getImageUrl("/contact/linkedinIcon.png")} alt="linkedin icon" className={styles.linkImg}/></a>
 					<div className={styles.contactItemText}>
-						<a href="" className={styles.link}>linkedlin.com/samuel-montes-</a>
+						<a href="https://www.linkedin.com/in/samuel-montes-/" target="_blank" className={styles.link}>linkedlin.com/samuel-montes-</a>
 					</div>
 				</li>
 				<li className={styles.contactItem}>
-					<img src={getImageUrl("/contact/githubIcon.png")} alt="github icon" />
+					<a href="https://github.com/smontes2" target="_blank"><img src={getImageUrl("/contact/githubIcon.png")} alt="github icon" className={styles.linkImg}/></a>
 					<div className={styles.contactItemText}>
-						<a href="" className={styles.link}>github.com/smontes2</a>
+						<a href="https://github.com/smontes2" target="_blank" className={styles.link}>github.com/smontes2</a>
 					</div>
 				</li>
 			</ul>

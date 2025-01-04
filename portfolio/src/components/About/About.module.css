@@ -83,9 +83,29 @@
 		margin-top: 29px;
 	}
 
+	.title {
+		text-align: center;
+	}
+
 	.aboutItem {
 		padding-left: 0;
 		padding-right: 0;
+		background-image: linear-gradient(180deg, #576cbc 0%, #132a53 100%);
+		background-size: 100% 100%;
+		padding: 20px;
+	}
+
+	.aboutItem h3{
+		text-align: center;
+	}
+
+	.aboutItem p{
+		padding-top: 10px;
+		text-align: center;
+	}
+	
+	.aboutItem img {
+		display: none;
 	}
 }
 

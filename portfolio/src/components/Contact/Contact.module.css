@@ -55,15 +55,25 @@
 
 @media screen and (max-width: 830px) {
 	.title {
+		font-size: 60px;
 		text-align: center;
 	}
 
 	.message {
 		text-align: center;
+		font-size: 30px;
 	}
 
 	.container {
 		padding: 30px;
 		gap: 40px;
+	}
+
+	.contactItems {
+		flex-direction: row;
+	}
+
+	.link{
+		display: none;
 	}
 }
