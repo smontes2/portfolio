@@ -1,10 +1,9 @@
 import React from "react";
 
-import projects from "../../data/projects.json";
 import { ProjectCard } from "./ProjectCard";
 import styles from "./Projects.module.css";
 
-export const Project = () => {
+export const Project = ({ projects = [] }) => {
   return (
     <section className={styles.container} id="projects">
       <h2 className={styles.title}>Projects</h2>

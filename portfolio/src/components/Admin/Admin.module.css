@@ -1,0 +1,224 @@
+@import "../../vars.css";
+
+.page {
+  background: linear-gradient(180deg, #0b1f3a 0%, #091426 100%);
+  min-height: 100vh;
+  color: var(--color-text);
+  padding: 28px 20px 40px;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.heading {
+  font-size: 36px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.bodyText {
+  margin-top: 8px;
+  font-size: 17px;
+  line-height: 1.45;
+  max-width: 740px;
+}
+
+.mutedText {
+  margin-top: 8px;
+  color: #c0d4ff;
+  font-size: 14px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.section {
+  background: rgba(22, 52, 105, 0.45);
+  border: 1px solid rgba(123, 158, 227, 0.2);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sectionHeader h2 {
+  font-size: 25px;
+  letter-spacing: 0.5px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: rgba(6, 17, 33, 0.74);
+  border: 1px solid rgba(123, 158, 227, 0.3);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.authForm {
+  margin-top: 10px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input,
+.textarea {
+  border: 1px solid #5377ba;
+  border-radius: 8px;
+  background: #0f2f5f;
+  color: #f4f7ff;
+  padding: 9px 10px;
+  font-size: 15px;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: 2px solid #7ea8ff;
+  outline-offset: 1px;
+}
+
+.fileInput {
+  border: 1px dashed #5377ba;
+  border-radius: 8px;
+  background: rgba(15, 47, 95, 0.45);
+  color: #f4f7ff;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.helperText {
+  margin-top: -2px;
+  color: #c0d4ff;
+  font-size: 13px;
+}
+
+.primaryButton,
+.secondaryButton,
+.deleteButton,
+.linkButton {
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 10px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.primaryButton {
+  background: #6ca8ff;
+  color: #04142b;
+}
+
+.primaryButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background: #21488a;
+  color: #edf4ff;
+}
+
+.deleteButton {
+  margin-top: 4px;
+  background: #782e2e;
+  color: #ffefef;
+}
+
+.linkButton {
+  background: #2f9f73;
+  color: #08291d;
+}
+
+.successText,
+.errorText {
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.successText {
+  background: rgba(31, 115, 81, 0.24);
+  border: 1px solid rgba(85, 192, 144, 0.45);
+}
+
+.errorText {
+  background: rgba(130, 43, 43, 0.3);
+  border: 1px solid rgba(218, 106, 106, 0.55);
+}
+
+.warningText {
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background: rgba(116, 94, 29, 0.35);
+  border: 1px solid rgba(238, 199, 83, 0.5);
+}
+
+.list {
+  margin-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+@media screen and (max-width: 700px) {
+  .page {
+    padding: 18px 12px 26px;
+  }
+
+  .heading {
+    font-size: 31px;
+  }
+
+  .section {
+    padding: 14px;
+  }
+}

@@ -1,11 +1,9 @@
 import React from "react";
 
-import skills from "../../data/skills.json";
-import history from "../../data/history.json";
 import styles from "./Experience.module.css";
 import { getImageUrl } from "../../utils";
 
-export const Experience = () => {
+export const Experience = ({ skills = [], history = [] }) => {
   return (
     <section className={styles.container} id="experience">
       <h2 className={styles.title}>Experience</h2>
@@ -24,18 +22,21 @@ export const Experience = () => {
         </div>
         <ul className={styles.history}>
           {history.map((historyItem, id) => {
+            const organization =
+              historyItem.organization || historyItem.orginization || "";
+
             return (
               <li key={id} className={styles.historyItem}>
                 <img
                   src={getImageUrl(historyItem.imageSrc)}
-                  alt={`${historyItem.orginization} Logo`}
+                  alt={`${organization} Logo`}
                 />
                 <div className={styles.historyItemDetails}>
-                  <h3>{`${historyItem.orginization}`}</h3>
+                  <h3>{organization}</h3>
 				  <h2>{`${historyItem.role}`}</h2>
                   <p>{`${historyItem.startDate} - ${historyItem.endDate}`}</p>
                   <ul>
-                    {historyItem.experiences.map((experience, id) => {
+                    {(historyItem.experiences || []).map((experience, id) => {
                       return <li key={id}>{experience}</li>;
                     })}
                   </ul>
