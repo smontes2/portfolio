@@ -3,8 +3,16 @@ export const getImageUrl = (path) => {
     return "";
   }
 
-  if (/^(https?:)?\/\//.test(path) || path.startsWith("/")) {
+  if (/^(https?:)?\/\//.test(path)) {
     return path;
+  }
+
+  if (path.startsWith("/assets/")) {
+    return path;
+  }
+
+  if (path.startsWith("/")) {
+    return `/assets${path}`;
   }
 
   return `/assets/${path}`;

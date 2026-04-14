@@ -78,6 +78,13 @@ const EMPTY_EXPERIENCE = {
   imageSrc: "",
 };
 
+const EMPTY_CONTACT_METHOD = {
+  label: "",
+  href: "",
+  imageSrc: "",
+  imageAlt: "",
+};
+
 export const Admin = () => {
   const [content, setContent] = useState(defaultPortfolioContent);
   const [user, setUser] = useState(null);
@@ -134,6 +141,7 @@ export const Admin = () => {
       languages: content.skills.length,
       projects: content.projects.length,
       experiences: content.history.length,
+      contactMethods: content.contact.methods.length,
     }),
     [content],
   );
@@ -158,6 +166,50 @@ export const Admin = () => {
     setContent((previous) => ({
       ...previous,
       [key]: previous[key].filter((_, itemIndex) => itemIndex !== index),
+    }));
+  };
+
+  const updateObjectField = (key, field, value) => {
+    setContent((previous) => ({
+      ...previous,
+      [key]: {
+        ...previous[key],
+        [field]: value,
+      },
+    }));
+  };
+
+  const updateContactMethod = (index, updatedMethod) => {
+    setContent((previous) => ({
+      ...previous,
+      contact: {
+        ...previous.contact,
+        methods: previous.contact.methods.map((method, methodIndex) =>
+          methodIndex === index ? updatedMethod : method,
+        ),
+      },
+    }));
+  };
+
+  const addContactMethod = () => {
+    setContent((previous) => ({
+      ...previous,
+      contact: {
+        ...previous.contact,
+        methods: [...previous.contact.methods, EMPTY_CONTACT_METHOD],
+      },
+    }));
+  };
+
+  const removeContactMethod = (index) => {
+    setContent((previous) => ({
+      ...previous,
+      contact: {
+        ...previous.contact,
+        methods: previous.contact.methods.filter(
+          (_, methodIndex) => methodIndex !== index,
+        ),
+      },
     }));
   };
 
@@ -351,7 +403,7 @@ export const Admin = () => {
               and projects, then save.
             </p>
             <p className={styles.mutedText}>
-              Languages: {completedSections.languages} | Experiences: {completedSections.experiences} | Projects: {completedSections.projects}
+              Languages: {completedSections.languages} | Experiences: {completedSections.experiences} | Projects: {completedSections.projects} | Contact Methods: {completedSections.contactMethods}
             </p>
           </div>
           <div className={styles.headerActions}>
@@ -383,6 +435,240 @@ export const Admin = () => {
             Image uploads are disabled until <code>VITE_FIREBASE_STORAGE_BUCKET</code> is set.
           </p>
         )}
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>Hero</h2>
+          </div>
+          <div className={styles.grid}>
+            <article className={styles.card}>
+              <label className={styles.fieldGroup}>
+                Heading
+                <input
+                  className={styles.input}
+                  value={content.hero.title}
+                  onChange={(event) =>
+                    updateObjectField("hero", "title", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Description
+                <textarea
+                  className={styles.textarea}
+                  rows="4"
+                  value={content.hero.description}
+                  onChange={(event) =>
+                    updateObjectField("hero", "description", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Button text
+                <input
+                  className={styles.input}
+                  value={content.hero.contactText}
+                  onChange={(event) =>
+                    updateObjectField("hero", "contactText", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Button link
+                <input
+                  className={styles.input}
+                  value={content.hero.contactHref}
+                  placeholder="mailto:you@example.com"
+                  onChange={(event) =>
+                    updateObjectField("hero", "contactHref", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Hero image path or URL
+                <input
+                  className={styles.input}
+                  value={content.hero.imageSrc}
+                  placeholder="hero/heroImage.png or https://..."
+                  onChange={(event) =>
+                    updateObjectField("hero", "imageSrc", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Upload hero image
+                <input
+                  className={styles.fileInput}
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (!file) {
+                      return;
+                    }
+
+                    void handleImageUpload({
+                      file,
+                      section: "hero",
+                      uploadKey: "hero-image",
+                      onUploaded: (imageUrl) =>
+                        updateObjectField("hero", "imageSrc", imageUrl),
+                    });
+
+                    event.target.value = "";
+                  }}
+                />
+              </label>
+              {uploadingImageKeys["hero-image"] && (
+                <p className={styles.helperText}>Uploading image...</p>
+              )}
+              <label className={styles.fieldGroup}>
+                Hero image alt text
+                <input
+                  className={styles.input}
+                  value={content.hero.imageAlt}
+                  onChange={(event) =>
+                    updateObjectField("hero", "imageAlt", event.target.value)
+                  }
+                />
+              </label>
+            </article>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>Contact</h2>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={addContactMethod}
+            >
+              Add contact method
+            </button>
+          </div>
+          <div className={styles.grid}>
+            <article className={styles.card}>
+              <label className={styles.fieldGroup}>
+                Contact heading
+                <input
+                  className={styles.input}
+                  value={content.contact.title}
+                  onChange={(event) =>
+                    updateObjectField("contact", "title", event.target.value)
+                  }
+                />
+              </label>
+              <label className={styles.fieldGroup}>
+                Contact message
+                <textarea
+                  className={styles.textarea}
+                  rows="3"
+                  value={content.contact.message}
+                  onChange={(event) =>
+                    updateObjectField("contact", "message", event.target.value)
+                  }
+                />
+              </label>
+            </article>
+
+            {content.contact.methods.map((method, index) => (
+              <article className={styles.card} key={`contact-${index}`}>
+                <label className={styles.fieldGroup}>
+                  Label text
+                  <input
+                    className={styles.input}
+                    value={method.label}
+                    onChange={(event) =>
+                      updateContactMethod(index, {
+                        ...method,
+                        label: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <label className={styles.fieldGroup}>
+                  Link URL
+                  <input
+                    className={styles.input}
+                    value={method.href}
+                    placeholder="mailto:you@example.com or https://..."
+                    onChange={(event) =>
+                      updateContactMethod(index, {
+                        ...method,
+                        href: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <label className={styles.fieldGroup}>
+                  Icon image path or URL
+                  <input
+                    className={styles.input}
+                    value={method.imageSrc}
+                    placeholder="contact/emailIcon.png or https://..."
+                    onChange={(event) =>
+                      updateContactMethod(index, {
+                        ...method,
+                        imageSrc: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <label className={styles.fieldGroup}>
+                  Upload icon image
+                  <input
+                    className={styles.fileInput}
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) {
+                        return;
+                      }
+
+                      void handleImageUpload({
+                        file,
+                        section: "contact",
+                        uploadKey: `contact-${index}`,
+                        onUploaded: (imageUrl) =>
+                          updateContactMethod(index, {
+                            ...method,
+                            imageSrc: imageUrl,
+                          }),
+                      });
+
+                      event.target.value = "";
+                    }}
+                  />
+                </label>
+                {uploadingImageKeys[`contact-${index}`] && (
+                  <p className={styles.helperText}>Uploading image...</p>
+                )}
+                <label className={styles.fieldGroup}>
+                  Icon alt text
+                  <input
+                    className={styles.input}
+                    value={method.imageAlt}
+                    onChange={(event) =>
+                      updateContactMethod(index, {
+                        ...method,
+                        imageAlt: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <button
+                  type="button"
+                  className={styles.deleteButton}
+                  onClick={() => removeContactMethod(index)}
+                >
+                  Delete
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHeader}>
@@ -426,6 +712,36 @@ export const Admin = () => {
                     }
                   />
                 </label>
+                <label className={styles.fieldGroup}>
+                  Upload language image
+                  <input
+                    className={styles.fileInput}
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) {
+                        return;
+                      }
+
+                      void handleImageUpload({
+                        file,
+                        section: "skills",
+                        uploadKey: `skills-${index}`,
+                        onUploaded: (imageUrl) =>
+                          updateArrayItem("skills", index, {
+                            ...skill,
+                            imageSrc: imageUrl,
+                          }),
+                      });
+
+                      event.target.value = "";
+                    }}
+                  />
+                </label>
+                {uploadingImageKeys[`skills-${index}`] && (
+                  <p className={styles.helperText}>Uploading image...</p>
+                )}
                 <button
                   type="button"
                   className={styles.deleteButton}

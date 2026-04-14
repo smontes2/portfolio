@@ -2,6 +2,8 @@
 
 This portfolio now supports a lightweight built-in CMS at `/admin` so you can update:
 
+- Hero section content
+- Contact section content
 - Languages
 - Experiences
 - Projects
@@ -57,7 +59,7 @@ service firebase.storage {
 ```
 
 9. In Firebase Auth, create your admin user.
-10. Open `http://localhost:5173/admin`, sign in, upload project/experience images, then click **Save changes**.
+10. Open `http://localhost:5173/admin`, sign in, update text content, upload images, then click **Save changes**.
 
 ## Troubleshooting
 
@@ -79,6 +81,8 @@ The Firestore document path is:
 
 Document shape:
 
+- `hero`: `{ title, description, contactText, contactHref, imageSrc, imageAlt }`
+- `contact`: `{ title, message, methods: [{ label, href, imageSrc, imageAlt }] }`
 - `skills`: `[{ title, imageSrc }]`
 - `history`: `[{ role, organization, startDate, endDate, imageSrc, experiences[] }]`
 - `projects`: `[{ title, imageSrc, description, skills[], demo, source }]`

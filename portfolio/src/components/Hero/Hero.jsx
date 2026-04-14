@@ -1,19 +1,26 @@
-import React from "react";
-
 import styles from "./Hero.module.css";
 import { getImageUrl } from "../../utils";
 
-export const Hero = () => {
+export const Hero = ({ hero = {} }) => {
+  const {
+    title,
+    description,
+    contactText,
+    contactHref,
+    imageSrc,
+    imageAlt,
+  } = hero;
+
 	return <section className={styles.container}>
 		<div className={styles.content}>
-			<h1 className={styles.title}>Hi, I'm Sam</h1>
+			<h1 className={styles.title}>{title}</h1>
 			<p className={styles.description}>
-				I'm a Senior Computer Science major at Binghamton University. Reach out if you'd like to learn more!
+				{description}
 			</p>
-			<a href="mailto:smontes2022@gmail.com" className={styles.contactBtn}>Contact Me</a>
+			<a href={contactHref} className={styles.contactBtn}>{contactText}</a>
 		</div>
-		<img src={getImageUrl("hero/heroImage.png")} alt="Hero image of me" className={styles.heroImg}/>
+		<img src={getImageUrl(imageSrc)} alt={imageAlt} className={styles.heroImg}/>
 		<div className={styles.topBlur}/>
 		<div className={styles.bottomBlur}/>
 	</section>;
-}
+};

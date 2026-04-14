@@ -20,11 +20,11 @@ function App() {
   return (
     <div className={styles.App}>
       <Navbar />
-      <Hero />
+      <Hero hero={content.hero} />
       <About />
       <Experience skills={content.skills} history={content.history} />
       <Project projects={content.projects} />
-      <Contact />
+      <Contact contact={content.contact} />
     </div>
   );
 }

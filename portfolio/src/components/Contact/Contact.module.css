@@ -43,6 +43,12 @@
 	gap: 20px;
 }
 
+.linkImg {
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+}
+
 .contactItemText {
 	font-size: 30px;
 	font-weight: 400;
