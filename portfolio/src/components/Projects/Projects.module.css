@@ -1,32 +1,36 @@
 @import "../../vars.css";
 
 .container {
-	margin-top: 76px;
+	max-width: var(--container-max);
+	margin: 0 auto;
+	padding: 80px var(--container-pad);
 	color: var(--color-text);
-	margin-left: 10%;
-	margin-right: 10%;
 }
 
 .title {
-	font-size: 35px;
-	font-weight: 700;
-	letter-spacing: 1.75px;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.2em;
 	text-transform: uppercase;
+	color: var(--color-accent);
+	margin-bottom: 48px;
+}
+
+.title::before {
+	content: "03 — ";
+	color: var(--color-text-subtle);
+	font-weight: 500;
 }
 
 .projects {
-	margin-top: 37px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: 15px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 20px;
 	width: 100%;
 }
 
 @media screen and (max-width: 830px) {
-	.title {
-		text-align: center;
+	.container {
+		padding: 60px var(--container-pad);
 	}
 }

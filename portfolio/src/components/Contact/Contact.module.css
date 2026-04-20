@@ -1,14 +1,14 @@
 @import "../../vars.css";
 
 .container {
-	margin-top: 100px;
-	background: var(--color-secondary);
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	padding: 80px;
-	gap: 100px;
+	margin-top: 80px;
+	background: var(--color-surface);
+	border-top: 1px solid var(--color-border);
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 64px;
+	padding: 80px max(24px, calc((100vw - var(--container-max)) / 2));
+	align-items: center;
 }
 
 .text {
@@ -16,13 +16,19 @@
 }
 
 .title {
-	font-size: 80px;
-	font-weight: 700;
+	font-size: clamp(2rem, 4vw, 3rem);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	margin-bottom: 12px;
 }
 
 .message {
-	font-size: 40px;
+	font-size: 16px;
+	line-height: 1.6;
 	font-weight: 400;
+	color: var(--color-text-muted);
+	max-width: 420px;
 }
 
 .contactInfo {
@@ -33,53 +39,65 @@
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 4px;
 }
 
 .contactItem {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: 20px;
+	gap: 14px;
+	padding: 14px 16px;
+	border-radius: var(--radius-md);
+	border: 1px solid transparent;
+	transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.contactItem:hover {
+	border-color: var(--color-border);
+	background: var(--color-surface-2);
 }
 
 .linkImg {
-	width: 40px;
-	height: 40px;
+	width: 22px;
+	height: 22px;
 	object-fit: contain;
+	opacity: 0.85;
+	filter: brightness(0) invert(1);
 }
 
 .contactItemText {
-	font-size: 30px;
-	font-weight: 400;
+	font-size: 15px;
+	font-weight: 500;
 }
 
 .link {
 	text-decoration: none;
 	color: var(--color-text);
+	transition: color 0.2s ease;
+}
+
+.contactItem:hover .link {
+	color: var(--color-accent);
 }
 
 @media screen and (max-width: 830px) {
-	.title {
-		font-size: 60px;
+	.container {
+		grid-template-columns: 1fr;
+		gap: 36px;
+		padding: 60px 24px;
 		text-align: center;
 	}
 
 	.message {
-		text-align: center;
-		font-size: 30px;
-	}
-
-	.container {
-		padding: 30px;
-		gap: 40px;
+		margin: 0 auto;
 	}
 
 	.contactItems {
-		flex-direction: row;
+		align-items: center;
 	}
 
-	.link{
-		display: none;
+	.contactItem {
+		justify-content: center;
 	}
 }
