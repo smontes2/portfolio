@@ -21,15 +21,22 @@ import {
 } from "../../lib/portfolioContentService";
 import { uploadPortfolioImage } from "../../lib/storageService";
 
-const parseCommaSeparatedList = (value) =>
-  value
-    .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
+const parseCommaSeparatedList = (
+  value,
+  { keepEmptyItems = false } = {},
+) => {
+  const items = value.split(",").map((item) => item.trim());
+
+  if (keepEmptyItems) {
+    return items;
+  }
+
+  return items.filter(Boolean);
+};
 
 const parseLines = (value) =>
   value
-    .split("\n")
+    .split(/\n\s*\n/)
     .map((item) => item.trim())
     .filter(Boolean);
 
@@ -50,6 +57,17 @@ const getReadableError = (error) => {
 
   if (code === "storage/unauthenticated") {
     return "Your session is not authenticated for Firebase Storage. Sign out and sign back in.";
+  }
+
+  if (code === "storage/upload-timeout") {
+    return "Image upload timed out. Check your network and confirm Firebase Storage is configured correctly, then try again.";
+  }
+
+  if (
+    code === "storage/invalid-default-bucket" ||
+    code === "storage/bucket-not-found"
+  ) {
+    return "Invalid Firebase Storage bucket configuration. Set VITE_FIREBASE_STORAGE_BUCKET to your bucket name (for example, my-project.firebasestorage.app), then restart the dev server.";
   }
 
   return error?.message || "An unexpected error occurred.";
@@ -85,6 +103,8 @@ const EMPTY_CONTACT_METHOD = {
   imageAlt: "",
 };
 
+const MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+
 export const Admin = () => {
   const [content, setContent] = useState(defaultPortfolioContent);
   const [user, setUser] = useState(null);
@@ -93,6 +113,7 @@ export const Admin = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [uploadingImageKeys, setUploadingImageKeys] = useState({});
+  const [uploadProgressByKey, setUploadProgressByKey] = useState({});
   const [isContentLoading, setIsContentLoading] = useState(true);
   const [isAuthLoading, setIsAuthLoading] = useState(hasFirebaseConfig);
 
@@ -283,6 +304,31 @@ export const Admin = () => {
     }));
   };
 
+  const setImageUploadProgress = (key, value) => {
+    setUploadProgressByKey((previous) => ({
+      ...previous,
+      [key]: value,
+    }));
+  };
+
+  const clearImageUploadProgress = (key) => {
+    setUploadProgressByKey((previous) => {
+      const next = { ...previous };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const getUploadHelperText = (key) => {
+    const progress = uploadProgressByKey[key];
+
+    if (typeof progress === "number" && Number.isFinite(progress)) {
+      return `Uploading image... ${progress}%`;
+    }
+
+    return "Uploading image...";
+  };
+
   const handleImageUpload = async ({ file, section, uploadKey, onUploaded }) => {
     if (!hasFirebaseStorageConfig) {
       setErrorMessage(
@@ -291,23 +337,34 @@ export const Admin = () => {
       return;
     }
 
-    if (!file.type.startsWith("image/")) {
+    if (!file.type || !file.type.startsWith("image/")) {
       setErrorMessage("Only image files are supported.");
+      return;
+    }
+
+    if (file.size > MAX_UPLOAD_SIZE_BYTES) {
+      setErrorMessage("Image is too large. Use a file smaller than 10 MB.");
       return;
     }
 
     setErrorMessage("");
     setStatusMessage("");
     setImageUploadState(uploadKey, true);
+    setImageUploadProgress(uploadKey, 0);
 
     try {
-      const url = await uploadPortfolioImage({ file, section });
+      const url = await uploadPortfolioImage({
+        file,
+        section,
+        onProgress: (progress) => setImageUploadProgress(uploadKey, progress),
+      });
       onUploaded(url);
       setStatusMessage("Image uploaded. Save changes to publish.");
     } catch (error) {
       setErrorMessage(getReadableError(error));
     } finally {
       setImageUploadState(uploadKey, false);
+      clearImageUploadProgress(uploadKey);
     }
   };
 
@@ -520,7 +577,9 @@ export const Admin = () => {
                 />
               </label>
               {uploadingImageKeys["hero-image"] && (
-                <p className={styles.helperText}>Uploading image...</p>
+                <p className={styles.helperText}>
+                  {getUploadHelperText("hero-image")}
+                </p>
               )}
               <label className={styles.fieldGroup}>
                 Hero image alt text
@@ -643,7 +702,9 @@ export const Admin = () => {
                   />
                 </label>
                 {uploadingImageKeys[`contact-${index}`] && (
-                  <p className={styles.helperText}>Uploading image...</p>
+                  <p className={styles.helperText}>
+                    {getUploadHelperText(`contact-${index}`)}
+                  </p>
                 )}
                 <label className={styles.fieldGroup}>
                   Icon alt text
@@ -740,7 +801,9 @@ export const Admin = () => {
                   />
                 </label>
                 {uploadingImageKeys[`skills-${index}`] && (
-                  <p className={styles.helperText}>Uploading image...</p>
+                  <p className={styles.helperText}>
+                    {getUploadHelperText(`skills-${index}`)}
+                  </p>
                 )}
                 <button
                   type="button"
@@ -863,14 +926,16 @@ export const Admin = () => {
                   />
                 </label>
                 {uploadingImageKeys[`history-${index}`] && (
-                  <p className={styles.helperText}>Uploading image...</p>
+                  <p className={styles.helperText}>
+                    {getUploadHelperText(`history-${index}`)}
+                  </p>
                 )}
                 <label className={styles.fieldGroup}>
-                  Bullet points (one per line)
+                  Bullet points (blank line between each)
                   <textarea
                     className={styles.textarea}
-                    rows="5"
-                    value={item.experiences.join("\n")}
+                    rows="6"
+                    value={item.experiences.join("\n\n")}
                     onChange={(event) =>
                       updateArrayItem("history", index, {
                         ...item,
@@ -961,7 +1026,9 @@ export const Admin = () => {
                   />
                 </label>
                 {uploadingImageKeys[`projects-${index}`] && (
-                  <p className={styles.helperText}>Uploading image...</p>
+                  <p className={styles.helperText}>
+                    {getUploadHelperText(`projects-${index}`)}
+                  </p>
                 )}
                 <label className={styles.fieldGroup}>
                   Description
@@ -983,6 +1050,14 @@ export const Admin = () => {
                     className={styles.input}
                     value={project.skills.join(", ")}
                     onChange={(event) =>
+                      updateArrayItem("projects", index, {
+                        ...project,
+                        skills: parseCommaSeparatedList(event.target.value, {
+                          keepEmptyItems: true,
+                        }),
+                      })
+                    }
+                    onBlur={(event) =>
                       updateArrayItem("projects", index, {
                         ...project,
                         skills: parseCommaSeparatedList(event.target.value),

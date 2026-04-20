@@ -1,4 +1,4 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import { storage } from "./firebase";
 
@@ -19,7 +19,14 @@ const sanitizePathChunk = (value = "") =>
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
 
-export const uploadPortfolioImage = async ({ file, section }) => {
+const DEFAULT_UPLOAD_TIMEOUT_MS = 45000;
+
+export const uploadPortfolioImage = async ({
+  file,
+  section,
+  onProgress,
+  timeoutMs = DEFAULT_UPLOAD_TIMEOUT_MS,
+}) => {
   if (!storage) {
     throw new Error(
       "Firebase Storage is not configured. Add VITE_FIREBASE_STORAGE_BUCKET.",
@@ -38,10 +45,54 @@ export const uploadPortfolioImage = async ({ file, section }) => {
     ? `${timestamp}-${randomPart}.${extension}`
     : `${timestamp}-${randomPart}`;
   const fileRef = ref(storage, `portfolio/${safeSection}/${fileName}`);
-
-  await uploadBytes(fileRef, file, {
+  const uploadTask = uploadBytesResumable(fileRef, file, {
     contentType: file.type || undefined,
   });
 
-  return getDownloadURL(fileRef);
+  return new Promise((resolve, reject) => {
+    let didTimeout = false;
+    const timeoutId = globalThis.setTimeout(() => {
+      didTimeout = true;
+      uploadTask.cancel();
+    }, timeoutMs);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        if (!onProgress || snapshot.totalBytes <= 0) {
+          return;
+        }
+
+        const progress = Math.min(
+          100,
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100),
+        );
+        onProgress(progress);
+      },
+      (error) => {
+        globalThis.clearTimeout(timeoutId);
+
+        if (didTimeout) {
+          const timeoutError = new Error(
+            "Image upload timed out. Check your network and Firebase Storage settings, then try again.",
+          );
+          timeoutError.code = "storage/upload-timeout";
+          reject(timeoutError);
+          return;
+        }
+
+        reject(error);
+      },
+      async () => {
+        globalThis.clearTimeout(timeoutId);
+
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(url);
+        } catch (error) {
+          reject(error);
+        }
+      },
+    );
+  });
 };

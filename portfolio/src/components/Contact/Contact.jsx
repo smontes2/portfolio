@@ -1,49 +1,46 @@
 import styles from "./Contact.module.css";
 import { getImageUrl } from "../../utils";
 
-const isExternalLink = (url = "") =>
-  /^https?:\/\//i.test(url);
+const isExternalLink = (url = "") => /^https?:\/\//i.test(url);
 
 export const Contact = ({ contact = {} }) => {
   const { title, message, methods = [] } = contact;
 
-	return <footer className={styles.container} id="contact">
-		<div className={styles.text}>
-			<h1 className={styles.title}>{title}</h1>
-			<p className={styles.message}>{message}</p>
-		</div>
-		<div className={styles.contactInfo}>
-			<ul className={styles.contactItems}>
-        {methods.map((method, index) => {
-          const externalLink = isExternalLink(method.href);
+  return (
+    <footer className={styles.container} id="contact">
+      <div className={styles.inner}>
+        <div className={styles.glow} />
 
-          return (
-            <li className={styles.contactItem} key={`contact-method-${index}`}>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.message}>{message}</p>
+
+        <div className={styles.methods}>
+          {methods.map((method, index) => {
+            const external = isExternalLink(method.href);
+            return (
               <a
+                key={index}
                 href={method.href}
-                target={externalLink ? "_blank" : undefined}
-                rel={externalLink ? "noreferrer" : undefined}
+                target={external ? "_blank" : undefined}
+                rel={external ? "noreferrer" : undefined}
+                className={styles.method}
               >
-                <img
-                  src={getImageUrl(method.imageSrc)}
-                  alt={method.imageAlt}
-                  className={styles.linkImg}
-                />
+                <span className={styles.methodIcon}>
+                  <img
+                    src={getImageUrl(method.imageSrc)}
+                    alt={method.imageAlt}
+                  />
+                </span>
+                <span className={styles.methodLabel}>{method.label}</span>
+                <span className={styles.arrow}>↗</span>
               </a>
-              <div className={styles.contactItemText}>
-                <a
-                  href={method.href}
-                  target={externalLink ? "_blank" : undefined}
-                  rel={externalLink ? "noreferrer" : undefined}
-                  className={styles.link}
-                >
-                  {method.label}
-                </a>
-              </div>
-            </li>
-          );
-        })}
-			</ul>
-		</div>
-	</footer>
+            );
+          })}
+        </div>
+        <p className={styles.footnote}>
+          Built with React · {new Date().getFullYear()}
+        </p>
+      </div>
+    </footer>
+  );
 };
