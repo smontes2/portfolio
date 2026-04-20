@@ -3,77 +3,107 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	border-radius: 10px;
-	background: linear-gradient(180deg, #576cbc 0%, #132a53 100%);
-	box-shadow: 0 16px 14px 0 #04152d;
-	padding: 18px 24px;
-	max-width: 345px;
-	width: 345px;
-	height: 650px;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	padding: 20px;
+	transition: border-color 0.25s ease, transform 0.25s ease,
+		background-color 0.25s ease;
+	height: 100%;
+}
+
+.container:hover {
+	border-color: var(--color-border-strong);
+	background: var(--color-surface-2);
+	transform: translateY(-3px);
 }
 
 .image {
-	margin-bottom: 26px;
+	width: 100%;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	border-radius: var(--radius-sm);
+	margin-bottom: 20px;
+	background: var(--color-surface-2);
 }
 
 .title {
-	font-size: 25px;
-	font-weight: 700;
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--color-text);
+	margin-bottom: 8px;
 }
 
 .description {
-	margin-top: 6px;
-	font-size: 25px;
+	font-size: 14px;
+	line-height: 1.6;
 	font-weight: 400;
+	color: var(--color-text-muted);
 	flex-grow: 1;
-	overflow-y: auto;
+	margin-bottom: 18px;
 }
 
-.skills{
+.skills {
 	width: 100%;
-	margin-top: 14px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 6px;
 	list-style: none;
+	margin-bottom: 18px;
 }
 
 .skill {
-	font-size: 25px;
-	font-weight: 400;
-	border-radius: 100px;
-	background: var(--color-dark);
-	padding: 2px 22px;
+	font-size: 12px;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	color: var(--color-text-muted);
+	border-radius: 999px;
+	background: transparent;
+	border: 1px solid var(--color-border);
+	padding: 3px 10px;
 }
 
 .links {
 	width: 100%;
-	margin-top: 26px;
 	display: flex;
-	justify-content: space-around;
+	gap: 10px;
+	padding-top: 16px;
+	border-top: 1px solid var(--color-border);
 }
 
 .link {
+	flex: 1;
+	text-align: center;
 	text-decoration: none;
 	color: var(--color-text);
-	font-size: 30px;
-	font-weight: 600;
-	border-radius: 100px;
-	background: var(--color-primary);
-	padding: 1px 22px;
+	font-size: 13px;
+	font-weight: 500;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	border: 1px solid var(--color-border);
+	padding: 8px 16px;
+	transition: background-color 0.2s ease, border-color 0.2s ease,
+		color 0.2s ease;
+}
+
+.link:hover {
+	background: var(--color-accent);
+	border-color: var(--color-accent);
+	color: var(--color-bg);
 }
 
 @media screen and (max-width: 830px) {
 	.title {
-		text-align: center;
+		text-align: left;
 	}
 
 	.description {
-		text-align: center;
+		text-align: left;
 	}
 
 	.skills {
-		justify-content: center;
+		justify-content: flex-start;
 	}
 }

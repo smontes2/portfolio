@@ -1,13 +1,31 @@
 :root {
-	/* Colors */
-	--color-text: #fff;
-	--color-primary: #576abc;
-	--color-secondary: #19376d;
-	--color-dark: #0b2447;
-	--color-bg: #04152d;
+	/* Core palette */
+	--color-bg: #0a0a0a;
+	--color-surface: #111111;
+	--color-surface-2: #161616;
+	--color-border: rgba(255, 255, 255, 0.08);
+	--color-border-strong: rgba(255, 255, 255, 0.16);
+	--color-text: #ededed;
+	--color-text-muted: #8a8a8a;
+	--color-text-subtle: #5c5c5c;
+	--color-accent: #a78bfa;
+	--color-accent-hover: #b9a2fb;
+	--color-accent-soft: rgba(167, 139, 250, 0.12);
+
+	/* Legacy aliases kept for backwards compatibility (Admin, etc.) */
+	--color-primary: #a78bfa;
+	--color-secondary: #1c1c1c;
+	--color-dark: #0a0a0a;
 
 	/* Fonts */
 	--font-roboto: "Roboto";
-	--font-outfit: "Outfit"
+	--font-outfit: "Outfit";
 
+	/* Layout */
+	--container-max: 1200px;
+	--container-pad: 24px;
+	--section-pad: 120px;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
 }
